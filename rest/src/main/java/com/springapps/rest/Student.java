@@ -5,6 +5,10 @@ public class Student {
     private String name;
     private int rollNo;
 
+    public Student() {
+
+    }
+
     public Student(int uid, String name, int rollNo) {
         this.uid = uid;
         this.name = name;
