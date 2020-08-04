@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>SMS dashboard</title>
+</head>
+
+<body>
+
+<div class="container">
+    <section class="jumbotron mt-3">
+        <h1>SMS Dashboard</h1>
+        Sending from <span th:text="${phoneNumber}" />
+    </section>
+
+    <div class="row">
+        <div class="col">
+            <section class="card">
+                <h2 class="card-header">Add Phone Number</h2>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="new-name">Name:</label>
+                        <input type="tel" id="new-name" class="form-control"/>
+                        <label for="new-phone-number">Phone Number:</label>
+                        <input type="tel" id="new-phone-number" class="form-control"/>
+                        <small class="form-text text-muted">Please include the country code as well.</small>
+                    </div>
+                    <button id="add-new-phone-number" class="btn btn-primary">Add Number</button>
+                </div>
+            </section>
+        </div>
+
+        <div class="col">
+            <section class="card">
+                <h2 class="card-header">Send Messages</h2>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="available-numbers">Select Numbers:</label>
+                        <select multiple id="available-numbers" class="form-control"></select>
+                        <label for="messageDetails">Enter your Message:</label>
+                        <textarea id="messageDetails" class="form-control" rows="3"></textarea>
+                    </div>
+                    <button id="send-messages" class="btn btn-primary">Send Message</button>
+                </div>
+            </section>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    window.addEventListener("DOMContentLoaded", e => {
+        const newName = document.querySelector("#new-name");
+        const newPhoneNumber = document.querySelector("#new-phone-number");
+        const availableNumbers = document.querySelector("#available-numbers");
+        const messageContent = document.querySelector("#messageDetails");
+
+        document.querySelector("#add-new-phone-number").onclick = e => {
+            const newOption = document.createElement("option");
+            newOption.text = `${newName.value} (${newPhoneNumber.value})`;
+            newOption.value = newPhoneNumber.value;
+
+            availableNumbers.add(newOption, null);
+
+            newName.value = "";
+            newPhoneNumber.value = "";
+        };
+
+        document.querySelector("#send-messages").onclick = e => {
+            let selectedNumbers = [];
+            document.querySelectorAll("#available-numbers option:checked").forEach( o => selectedNumbers.push(o.value) );
+
+            const postBody = {
+                numbers: selectedNumbers,
+                message: messageContent.value
+            }
+
+            let req = new XMLHttpRequest();
+            req.addEventListener("load", e => {
+                if (e.target.status === 202) {
+                    messageContent.value = "";
+                } else {
+                    console.error("Error sending messageDetails", e.target);
+                }
+            });
+            req.open("POST", "/send", true);
+            req.setRequestHeader("Content-Type", "application/json");
+            req.send(JSON.stringify(postBody));
+        }
+    }, false);
+
+</script>
+</body>
+</html>
