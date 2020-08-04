@@ -32,9 +32,9 @@ public class RestApplication {
 	}
 
 	@GetMapping("/students/all")
-	public Student all() {
+	public List<Student> all() {
 		List<Student> students = studentJDBCTemplate.listStudents();
-		return new Student(195276, "Vansh Jain", 60);
+		return students;
 	}
 
 }
