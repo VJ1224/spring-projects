@@ -1,5 +1,6 @@
 package com.springapps.rest;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
@@ -19,5 +20,27 @@ public class StudentJDBCTemplate implements StudentDAO {
         List<Student> students = jdbcTemplate.query(query, new StudentMapper());
 
         return students;
+    }
+
+    public Student getStudentByUID(int uid) {
+        try {
+            String query = "SELECT * FROM students WHERE uid = ?";
+            Student student = jdbcTemplate.queryForObject(query, new Object[] {uid}, new StudentMapper());
+
+            return student;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public List<Student> getStudentByRollNumber(int rollNo) {
+        try {
+            String query = "SELECT * FROM students WHERE roll_no = ?";
+            List<Student> students = jdbcTemplate.query(query, new Object[] {rollNo}, new StudentMapper());
+
+            return students;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 }
