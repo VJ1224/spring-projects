@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.context.ApplicationContext;
 
@@ -33,20 +31,37 @@ public class RestApplication {
 
 	@GetMapping("/students/all")
 	public List<Student> getAllStudents() {
-		List<Student> students = studentJDBCTemplate.listStudents();
-		return students;
+		return studentJDBCTemplate.listStudents();
 	}
 
 	@GetMapping("/students/uid/{uid}")
     public Student getStudentByUID(@PathVariable int uid) {
-	    Student student = studentJDBCTemplate.getStudentByUID(uid);
-	    return student;
+	    return studentJDBCTemplate.getStudentByUID(uid);
     }
 
     @GetMapping("/students/roll_no/{rollNo}")
     public List<Student> getStudentByRollNumber(@PathVariable int rollNo) {
-        List<Student> students = studentJDBCTemplate.getStudentByRollNumber(rollNo);
-        return students;
+        return studentJDBCTemplate.getStudentByRollNumber(rollNo);
     }
+
+    @GetMapping("/students/course/{course}")
+	public List<Student> getStudentByCourse(@PathVariable String course) {
+		return studentJDBCTemplate.getStudentByCourse(course);
+	}
+
+    @PostMapping(value="/students/add", consumes="application/json", produces="application/json")
+	public Student addStudent(@RequestBody Student student) {
+		return studentJDBCTemplate.addStudent(student);
+	}
+
+	@DeleteMapping("/students/delete/{uid}")
+	public Student removeStudent(@PathVariable int uid) {
+		return studentJDBCTemplate.deleteStudent(uid);
+	}
+
+	@PutMapping("/students/update")
+	public Student updateStudent(@RequestBody Student student) {
+		return studentJDBCTemplate.updateStudent(student);
+	}
 
 }

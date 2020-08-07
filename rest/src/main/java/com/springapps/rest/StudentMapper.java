@@ -10,6 +10,7 @@ public class StudentMapper implements RowMapper<Student> {
         std.setUid(rs.getInt("uid"));
         std.setName(rs.getString("name"));
         std.setRollNo(rs.getInt("roll_no"));
+        std.setCourse((rs.getString("course")));
 
         return std;
     }

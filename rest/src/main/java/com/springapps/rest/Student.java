@@ -4,15 +4,15 @@ public class Student {
     private int uid;
     private String name;
     private int rollNo;
+    private String course;
 
-    public Student() {
+    public Student() {}
 
-    }
-
-    public Student(int uid, String name, int rollNo) {
+    public Student(int uid, String name, int rollNo, String course) {
         this.uid = uid;
         this.name = name;
         this.rollNo = rollNo;
+        this.course = course;
     }
 
     public int getUid() {
@@ -37,5 +37,13 @@ public class Student {
 
     public void setRollNo(int rollNo) {
         this.rollNo = rollNo;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
     }
 }
