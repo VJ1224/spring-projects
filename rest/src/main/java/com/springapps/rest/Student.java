@@ -1,5 +1,7 @@
 package com.springapps.rest;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Student {
     private int uid;
     private String name;
@@ -31,6 +33,7 @@ public class Student {
         this.name = name;
     }
 
+    @JsonProperty("roll_no")
     public int getRollNo() {
         return rollNo;
     }
