@@ -26,7 +26,15 @@ public class RestApplication {
 
 	@GetMapping("/")
 	public String home() {
-		return "Hello World!";
+		return "<h1>List of API endpoints</h1>" +
+				"<h3>Students</h3>" +
+				"<p>GET /students/all</p>" +
+				"<p>GET /students/uid/{uid}</p>" +
+				"<p>GET /students/roll_no/{roll_no}</p>" +
+				"<p>GET /students/course/{course}</p>" +
+				"<p>POST /students/add</p>" +
+				"<p>DELETE /students/delete/{uid}</p>" +
+				"<p>PUT /students/update</p>";
 	}
 
 	@GetMapping("/students/all")
